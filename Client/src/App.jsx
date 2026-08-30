@@ -13,10 +13,6 @@ import CreateStory from '../Pages/Story/YourStory'
 import Stats from '../Pages/Stats/Stats'
 import About from '../Pages/About/About'
 import MembershipPage from '../Components/Ui/MembershipPage'
-// import WriteStory from '../Pages/Write/WriteStory'
-// import WriteStory from '../Pages/Write/WriteStory';
-// import LexicalEditor from '../Pages/Write/LexicalEditor'
-// import BlogWriteForm from '../Pages/Write/Lexical/BlogWriteForm'
 import WriteBlogPage from '../Pages/Write/Lexical/WriteBlogPage'
 import BlogAuthPage from '../Pages/Auth/BlogAuthPage'
 
