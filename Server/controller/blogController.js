@@ -1,0 +1,63 @@
+import * as blogService from "../service/blogService.js"
+import * as commentService from "../service/commentService.js";
+import * as likeService from "../service/likeService.js";
+
+export const createBlog = async ( req , res ) => {
+    try {
+        const {title , content , status} = req.body;
+        const authorId = req.user?.id; // assumes auth middleware sets req.user
+        if(!authorId){
+            return res.status(401).json({error : "Unauthorized"})
+        }
+
+        const blog = await blogService.createBlogService({title , content , status , authorId});
+        return res.status(201).json({message : "Blog Created",blog});
+    } catch (err) {
+        return res.status(err.status || 500).json({
+            error : err.message || "Something went wrong",
+            detail : err.details
+        })
+    }
+}
+
+export const getAllBlog = async (req,res)=>{
+    blogService.getAllBlogService();
+    res.json("ALl Blog Are Listed Below : ");
+}
+
+export const getBlogById = async  (req,res)=>{
+    blogService.getBlogService("0606");
+    res.json("Specific Blog is Retruned :");
+}
+
+export const updateBlog = async (req,res)=>{
+    blogService.updateBlogService("Updated Blog","0606","123")
+    res.json("Blog is Updated : ");
+}
+
+export const deleteBlog = async ( req,res )=>{
+    blogService.deleteBlogService("0606","123")
+    res.json("Blog is Deleted : ");
+}
+
+export const commentBlog = async (req,res)=>{
+    commentService.addNewCommentService("123","0606","Helpful")
+    res.json("New Comment Was Added  :");
+}
+
+
+export const deleteCommentBlog = async ( req,res )=>{
+    commentService.deleteCommentService("123","0606","0808")
+    res.json("Comment Was Deleted : ");
+}
+
+export const likeBlog = async ( req,res )=>{
+    likeService.addNewLikeService("123","0606")
+    res.json("New Like Was Added :  ");
+}
+
+
+export const dislikeBlog = async (req,res)=>{
+    likeService.dislikeService("123","0606");
+    res.json("Blog was disliked : ");
+}
