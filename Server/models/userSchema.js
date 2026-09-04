@@ -1,66 +1,66 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-const userSchema = mongoose.Schema({
-    name : {
-        type : String,
-        required : true,
-        trim : true
+const userSchema = mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      trim: true,
     },
-    email : {
-        type : String,
-        required : true,
-        unique : true,
-        lowercase : true,
-        trim : true
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
     },
-    password : {
-        type : String,
+    password: {
+      type: String,
     },
-    googleId : {
-        type : String,
+    googleId: {
+      type: String,
     },
-    avatar : {
-        type : String,
+    avatar: {
+      type: String,
     },
-    pronouns : {
-        type : String,
-        maxlength : [10 , "Pronouns 10 characters se zyada nahi ho sakte"]
+    pronouns: {
+      type: String,
+      maxlength: [10, "Pronouns 10 characters se zyada nahi ho sakte"],
     },
-    bio :{
-        type: String,
-        maxlength: [160, "Bio 160 characters se zyada nahi ho sakti"],
-        trim : true
+    bio: {
+      type: String,
+      maxlength: [160, "Bio 160 characters se zyada nahi ho sakti"],
+      trim: true,
     },
-    role : {
-        type : String,
-        enum : ["user","admin"],
-        default : "user",
+    role: {
+      type: String,
+      enum: ["user", "admin"],
+      default: "user",
     },
-    isVerified : {
-        type : Boolean,
-        default : false
+    isVerified: {
+      type: Boolean,
+      default: false,
     },
-    followers : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    }],
-    following : [{
-        type : mongoose.Schema.Types.ObjectId,
-        ref : "User"
-    }],
-    resetPasswordToken : String,
-    resetPasswordExpire : Date,
-},{
-    timestamps:true
-})
-
-// userSchema.pre("save",async function(next){
-//     if(!this.isModified("password")) return next(); // Returns true if any of the given paths are modified, else false. If no arguments, returns true if any path in this document is modified.
-
-//     this.password = await bcrypt.hash(this.password,10);
-//     next();
-// });
+    followers: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    following: [
+      {
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+        notifyByEmail: { type: Boolean, default: true },
+      },
+    ],
+    resetPasswordToken: String,
+    resetPasswordExpire: Date,
+  },
+  {
+    timestamps: true,
+  },
+);
 
 userSchema.pre("save", async function () {
 

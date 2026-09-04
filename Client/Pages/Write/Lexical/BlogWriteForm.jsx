@@ -18,6 +18,8 @@ import theme from './theme';
 import { ImageNode } from './ImageNode';
 import ImagesPlugin from './ImagesPlugin';
 import InsertMenuPlugin from './InsertMenuPlugin';
+import BlogCategoryDropDown from './BlogCategoryDropDown';
+import { useToast } from '../../../Components/Ui/AlertToast';
 
 import './Editor.css';
 
@@ -80,6 +82,8 @@ export default function BlogWriteForm({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent || null);
   const [wordCount, setWordCount] = useState(0);
+  const [category, setCategory] = useState("");
+  
 
   const initialConfig = {
     namespace: 'BlogWriteForm',
@@ -120,7 +124,7 @@ export default function BlogWriteForm({
   };
 
   const handleSubmit = () => {
-    if (onSubmit) onSubmit({ title, content });
+    if (onSubmit) onSubmit({ title, content , category });
   };
 
   return (
@@ -129,7 +133,8 @@ export default function BlogWriteForm({
       <div className="blog-write-actions">
         <span className="blog-word-count">{wordCount} words</span>
 
-        <div className="blog-write-actions-right">
+        <div className="blog-write-actions-right"> 
+          <BlogCategoryDropDown value={category} onChange={setCategory}/>
           {onCancel && (
             <button type="button" className="btn-secondary blog-action-btn btn-cancel " onClick={handleCancel}>
               {cancelLabel}

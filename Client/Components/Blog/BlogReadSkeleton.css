@@ -1,0 +1,55 @@
+.sk-shimmer {
+  background: linear-gradient(90deg, #F1F1EF 25%, #E6E6E3 37%, #F1F1EF 63%);
+  background-size: 400% 100%;
+  animation: sk-shine 1.4s ease infinite;
+}
+
+@keyframes sk-shine {
+  0% { background-position: 100% 50%; }
+  100% { background-position: 0 50%; }
+}
+
+/* reuse .blogread / .blogread-container / .blogread-meta / .blogread-actionbar
+   / .blogread-content layout rules from BlogRead.css as-is */
+
+.blogread-cover {
+  border-radius: 0;
+}
+
+.sk-title-line {
+  height: 34px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+}
+
+.sk-title-line:last-of-type {
+  margin-bottom: 28px;
+}
+
+.sk-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.sk-line {
+  border-radius: 4px;
+}
+
+.sk-pill {
+  width: 72px;
+  height: 30px;
+  border-radius: 20px;
+}
+
+.sk-para-line {
+  height: 16px;
+  border-radius: 4px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 640px) {
+  .sk-title-line { height: 26px; }
+  .blogread-actionbar { justify-content: space-around; }
+}

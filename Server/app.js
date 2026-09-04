@@ -1,7 +1,10 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-import express from "express";const app = express();
+import dns from "dns";
+dns.setServers(["8.8.8.8", "1.1.1.1"]);
+import express from "express";
+const app = express();
 const port  = process.env.PORT || 8080;
 import cors from "cors";
 import { connectDB } from "./config/connectDB.js";
@@ -11,6 +14,7 @@ import asyncWrap from "./utils/asyncWrap.js";
 import ExpressError from "./utils/expressError.js";
 
 try {
+   
    await connectDB();
    console.log("Database Connected Successfully  :");
 } catch (err) {
@@ -21,7 +25,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/blog",blogRouter);
+app.use("/api/blogs",blogRouter);
 app.use("/api/user",userRouter);
 
 app.use((req,res,next)=>{

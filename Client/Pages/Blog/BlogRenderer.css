@@ -1,0 +1,242 @@
+/* ==========================================================
+   Blog Rendered Content — Typography System
+   Scope: .blog-rendered-content (wrapping div from BlogRenderer.jsx)
+   Uses clamp() for fluid font-sizes → no separate mobile
+   overrides needed for most sizes, but a couple of spacing/
+   media tweaks are added at the bottom for small screens.
+   ========================================================== */
+
+.blog-rendered-content {
+  --text-color: #1f2328;
+  --muted-color: #57606a;
+  --link-color: #2563eb;
+  --border-color: #e5e7eb;
+  --code-bg: #f6f8fa;
+  --quote-bg: #f9fafb;
+
+  color: var(--text-color);
+  font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  line-height: 1.75;
+  word-wrap: break-word;
+  max-width: 72ch; /* comfortable reading width */
+  margin-inline: auto;
+}
+
+/* ---------- Headings ---------- */
+.blog-rendered-content h1,
+.blog-rendered-content h2,
+.blog-rendered-content h3 {
+  color: var(--text-color);
+  font-weight: 700;
+  line-height: 1.3;
+  scroll-margin-top: 90px; /* nice if you add anchor/TOC links later */
+}
+
+.blog-rendered-content h1 {
+  font-size: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  margin: 2.2rem 0 1rem;
+  letter-spacing: -0.02em;
+}
+
+.blog-rendered-content h2 {
+  font-size: clamp(1.4rem, 1.2rem + 1vw, 1.875rem);
+  margin: 2rem 0 0.9rem;
+  letter-spacing: -0.01em;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.blog-rendered-content h3 {
+  font-size: clamp(1.15rem, 1.05rem + 0.5vw, 1.375rem);
+  margin: 1.6rem 0 0.7rem;
+}
+
+/* First heading shouldn't have a big gap from the top */
+.blog-rendered-content > :first-child {
+  margin-top: 0;
+}
+
+/* ---------- Paragraphs ---------- */
+.blog-rendered-content p {
+  margin: 1rem 0;
+  color: var(--text-color);
+}
+
+.blog-rendered-content strong {
+  font-weight: 700;
+}
+
+.blog-rendered-content em {
+  font-style: italic;
+}
+
+/* ---------- Links (agar future me add karo) ---------- */
+.blog-rendered-content a {
+  color: var(--link-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+
+.blog-rendered-content a:hover {
+  color: #1d4ed8;
+}
+
+/* ---------- Lists (bullet + numbered) ---------- */
+.blog-rendered-content ul,
+.blog-rendered-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.blog-rendered-content ul {
+  list-style: none;
+}
+
+.blog-rendered-content ul li {
+  position: relative;
+  padding-left: 1.4rem;
+  margin: 0.5rem 0;
+}
+
+/* custom round bullet instead of default disc */
+.blog-rendered-content ul li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.65em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--link-color);
+}
+
+.blog-rendered-content ol {
+  list-style: none;
+  counter-reset: blog-ol-counter;
+}
+
+.blog-rendered-content ol li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin: 0.5rem 0;
+  counter-increment: blog-ol-counter;
+}
+
+.blog-rendered-content ol li::before {
+  content: counter(blog-ol-counter);
+  position: absolute;
+  left: 0;
+  top: 0.05em;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--link-color);
+  border-radius: 50%;
+}
+
+/* nested lists */
+.blog-rendered-content li ul,
+.blog-rendered-content li ol {
+  margin: 0.4rem 0 0.4rem 0.5rem;
+}
+
+/* ---------- Blockquote ---------- */
+.blog-rendered-content blockquote {
+  margin: 1.5rem 0;
+  padding: 0.8rem 1.2rem;
+  background: var(--quote-bg);
+  border-left: 4px solid var(--link-color);
+  border-radius: 4px;
+  color: var(--muted-color);
+  font-style: italic;
+}
+
+.blog-rendered-content blockquote p {
+  margin: 0;
+}
+
+/* ---------- Code ---------- */
+.blog-rendered-content pre {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--code-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.blog-rendered-content pre code {
+  font-family: "Fira Code", "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.9em;
+  line-height: 1.6;
+  color: #24292f;
+  background: none;
+  padding: 0;
+}
+
+/* inline `code` (not inside pre) — safe to add if you ever emit it */
+.blog-rendered-content :not(pre) > code {
+  background: var(--code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-family: ui-monospace, monospace;
+}
+
+/* ---------- Images ---------- */
+.blog-rendered-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1.75rem auto;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- Horizontal rule, if you add one later ---------- */
+.blog-rendered-content hr {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 2.5rem 0;
+}
+
+/* ---------- Responsive tweaks for small screens ---------- */
+@media (max-width: 640px) {
+  .blog-rendered-content {
+    max-width: 100%;
+    line-height: 1.65;
+  }
+
+  .blog-rendered-content pre {
+    padding: 0.8rem 1rem;
+    border-radius: 6px;
+  }
+
+  .blog-rendered-content img {
+    margin: 1.25rem auto;
+    border-radius: 6px;
+  }
+
+  .blog-rendered-content blockquote {
+    padding: 0.7rem 1rem;
+  }
+}
+
+/* ---------- Dark mode (agar tumhare app me dark theme hai) ---------- */
+@media (prefers-color-scheme: dark) {
+  .blog-rendered-content.auto-dark {
+    --text-color: #e6edf3;
+    --muted-color: #9198a1;
+    --link-color: #58a6ff;
+    --border-color: #30363d;
+    --code-bg: #161b22;
+    --quote-bg: #161b22;
+  }
+}

@@ -1,7 +1,10 @@
-import * as authService from "../service/authService.js"
+import * as authService from "../service/authService.js";
+import asyncWrap from "../utils/asyncWrap.js";
+
 
 
 export const signupUser =   async ( req , res )=>{
+    console.log("Signup Controller Hitted:");
     const result = await authService.signupUserService(req.body);
 
     res.status(201).json({
@@ -16,7 +19,14 @@ export const signupUser =   async ( req , res )=>{
 
 export const loginUser = async (req,res)=>{
     const result = await authService.loginUserService(req.body);
-    res.status(201).json(result);
+    res.status(200).json({
+    success: true,
+    message: result.message,
+    data: {
+      user: result.user,
+      token: result.token,
+    },
+  });
 }
 
 export const getUser = async (req,res)=>{
@@ -33,3 +43,18 @@ export const deleteUser = async  (req,res)=>{
     let result = await authService.deleteUserService(req.params.id);
     res.status(201).json(result);
 }
+
+export const followUser =  async(req,res) => {
+    const result = await authService.followUserService(req.user.id , req.params.id);
+    res.status(200).json({ success : true , data : "result" });
+}
+
+export const unfollowUser = async(req,res)=>{
+    const result  = await authService.unfollowUserService(req.user.id, req.params.id);
+    res.status(200).json({ success : true , data : result });
+};
+
+export const toggleFollowNotification = async(req,res) =>{
+    const result = await authService.toggleFollowNotificationService(req.user.id, req.params.id);
+    res.status(200).json({ success : true , data : result });
+};

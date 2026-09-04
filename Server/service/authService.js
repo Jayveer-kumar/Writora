@@ -88,3 +88,72 @@ export const deleteUserService = async(userId)=>{
 
    return { success : true , message : "User Deleted Successfully" }
 }
+
+export const followUserService = async (currentUserId , targetUserId) => {
+   if(currentUserId === targetUserId){
+      const err = new Error("You can't follow yourself.");
+      err.statusCode = 400;
+      throw err;
+   }
+
+   const targetUser = await User.findById(targetUserId);
+   if(!targetUser){
+      const err = new Error("User Not Found.");
+      err.statusCode = 404;
+      throw err;
+   }
+
+   const alreadyFollowing = await User.exists({
+      _id : currentUserId,
+      "following.user" : targetUserId
+   });
+   
+   if(alreadyFollowing){
+      return { isFollowing : true , notifyByEmail : true };
+   }
+
+   await User.findByIdAndUpdate(currentUserId , {
+      $push : { following : { user : targetUserId , notifyByEmail : true }},
+   });
+
+   await User.findByIdAndUpdate(targetUserId , {
+      $addToSet : { followers : currentUserId },
+   });
+
+   return { isFollowing : true , notifyByEmail : true };
+}
+
+
+export const unfollowUserService = async (currentUserId , targetUserId) => {
+   await User.findByIdAndUpdate(currentUserId , {
+      $pull : { following : { user : targetUserId }},
+   });
+
+   await User.findByIdAndUpdate(targetUserId , {
+      $pull : { followers : currentUserId },
+   });
+
+   return { isFollowing : false };
+}
+
+export const toggleFollowNotificationService = async(currentUserId , targetUserId ) => {
+   const user = await User.findOne(
+      { _id : currentUserId , "following.user" : targetUserId },
+      { "following.$": 1}
+   );
+
+   if(!user || !user.following?.length) {
+      const err = new Error("You are not following this user.");
+      err.statusCode = 400;
+      throw err;
+   }
+
+   const newValue = !user.following[0].notifyByEmail;
+
+   await User.updateOne(
+      { _id : currentUserId , "following.user": targetUserId },
+      { $set: { "following.$notifyByEmail": newValue }}
+   );
+
+   return { notifyByEmail : newValue };
+}

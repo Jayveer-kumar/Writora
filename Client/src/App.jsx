@@ -15,6 +15,9 @@ import About from '../Pages/About/About'
 import MembershipPage from '../Components/Ui/MembershipPage'
 import WriteBlogPage from '../Pages/Write/Lexical/WriteBlogPage'
 import BlogAuthPage from '../Pages/Auth/BlogAuthPage'
+import BlogRead from '../Pages/Blog/BlogRead';
+
+import { ToastProvider } from '../Components/Ui/AlertToast'
 
 function App() {
 
@@ -23,6 +26,7 @@ function App() {
 
   return ( 
     <>
+    <ToastProvider >
     <BrowserRouter>
     <Routes>
       {/* Guest Routes */}
@@ -44,10 +48,12 @@ function App() {
       <Route path='/stats' element={<Stats />} /> 
       {/* <Route path='/write' element={ <LexicalEditor />} /> */}
       <Route path='/write' element={ <WriteBlogPage />} />
+      <Route path='blog/:slug' element={ <BlogRead /> } />
       </Route>
 
     </Routes>
     </BrowserRouter>
+    </ToastProvider>
     </>
   )
 }

@@ -3,8 +3,11 @@ import Blog from "../models/blogModel.js";
 // "My First Blog!!" -> "my-first-blog"
 
 function slugify(title){
+    if (typeof title !== "string") {
+    return "";
+    }
     return title
-    .toLowercase()
+    .toLowerCase()
     .trim()
     .replace(/[^\w\s-]/g, "") // remove special chars
     .replace(/\s+/g,"-") // spaces -> hyphens

@@ -2,13 +2,15 @@ import express from "express";
 const router = express.Router();
 import * as blogController from "../controller/blogController.js"
 import { protectRoute } from "../middleware/authMiddleware.js";
+import asyncWrap from "../utils/asyncWrap.js";
 
 // Blog CRUD Operation
-router.post("/", protectRoute , blogController.createBlog); // Create Blog
-router.get("/",blogController.getAllBlog); // Get All Blog
-router.get("/:blogId",blogController.getBlogById); // Get Single Blog
-router.put("/:blogId",blogController.updateBlog); // Update Blog
-router.delete("/:blogId",blogController.deleteBlog); // Delete Blog
+
+router.get("/",asyncWrap(blogController.getAllBlog)); // Get All Blog
+router.post("/publish", protectRoute , asyncWrap(blogController.createBlog)); // Create Blog
+router.get("/:slug",protectRoute , asyncWrap(blogController.getBlogBySlug)); // Get Single Blog
+router.put("/:blogId", protectRoute , asyncWrap(blogController.updateBlog)); // Update Blog
+router.delete("/:blogId", protectRoute , asyncWrap(blogController.deleteBlog)); // Delete Blog
 
 // Comments Operation
 

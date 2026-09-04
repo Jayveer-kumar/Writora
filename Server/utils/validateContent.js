@@ -4,7 +4,7 @@ const ALLOWED_PROTOCOLS = ["http:", "https:"];
 // Leave empty to allow any http(s) URL.
 const ALLOWED_DOMAINS = [];
 
-function isValidImageUrl(url) {
+export function isValidImageUrl(url) {
   try {
     const parsed = new URL(url);
 
@@ -24,7 +24,7 @@ function isValidImageUrl(url) {
 }
 
 // Walks the Lexical JSON tree and pulls out every image node's src
-function extractImageUrls(node, urls = []) {
+export function extractImageUrls(node, urls = []) {
   if (!node) return urls;
 
   if (node.type === "image" && node.src) urls.push(node.src);
@@ -37,17 +37,17 @@ function extractImageUrls(node, urls = []) {
 }
 
 // Also useful for setting coverImage automatically
- function extractFirstImageUrl(contentJson) {
+export function extractFirstImageUrl(contentJson) {
   const parsed = typeof contentJson === "string" ? JSON.parse(contentJson) : contentJson;
   const urls = extractImageUrls(parsed.root);
   return urls[0] || null;
 }
 
- function validateContentImages(contentJson) {
+export function validateContentImages(contentJson) {
   const parsed = typeof contentJson === "string" ? JSON.parse(contentJson) : contentJson;
   const urls = extractImageUrls(parsed.root);
   const invalidUrls = urls.filter((url) => !isValidImageUrl(url));
   return { valid: invalidUrls.length === 0, invalidUrls };
 }
 
-export { validateContentImages , extractFirstImageUrl }
+// export { validateContentImages , extractFirstImageUrl }

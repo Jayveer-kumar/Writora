@@ -3,15 +3,17 @@ import * as commentService from "../service/commentService.js";
 import * as likeService from "../service/likeService.js";
 
 export const createBlog = async ( req , res ) => {
+    console.log("create Blog route hited: "); 
+    console.log(req.body);
     try {
-        const {title , content , status} = req.body;
+        const {title , content , status , category } = req.body;
         const authorId = req.user?.id; // assumes auth middleware sets req.user
         if(!authorId){
             return res.status(401).json({error : "Unauthorized"})
         }
 
-        const blog = await blogService.createBlogService({title , content , status , authorId});
-        return res.status(201).json({message : "Blog Created",blog});
+        const blog = await blogService.createBlogService({title , content , status , authorId , category});
+        return res.status(201).json({message : "Blog Published successfully",blog});
     } catch (err) {
         return res.status(err.status || 500).json({
             error : err.message || "Something went wrong",
@@ -21,13 +23,34 @@ export const createBlog = async ( req , res ) => {
 }
 
 export const getAllBlog = async (req,res)=>{
-    blogService.getAllBlogService();
-    res.json("ALl Blog Are Listed Below : ");
+    try {
+      const blogs = await blogService.getAllBlogService();
+      return res.status(200).json({
+        success: true,
+        blogs,
+      });
+    } catch (err) {
+      return res.status(500).json({
+        success: false,
+        message: "No Blogs. Please Try Some time later...",
+      });
+    }
 }
 
-export const getBlogById = async  (req,res)=>{
-    blogService.getBlogService("0606");
-    res.json("Specific Blog is Retruned :");
+export const getBlogBySlug = async  (req,res)=>{
+    const { slug } = req.params;
+    if(!slug){
+        return res.status(401).json({ error : "invalid slug"});
+    }
+    const { blog , followState } = await blogService.getBlogBySlugService(slug , req.user?.id);
+
+    console.log("user : ",req.user.id);
+
+    return res.status(200).json({
+        success : true,
+        blog,
+        followState,
+    });
 }
 
 export const updateBlog = async (req,res)=>{
