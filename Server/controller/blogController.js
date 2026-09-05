@@ -42,15 +42,26 @@ export const getBlogBySlug = async  (req,res)=>{
     if(!slug){
         return res.status(401).json({ error : "invalid slug"});
     }
-    const { blog , followState } = await blogService.getBlogBySlugService(slug , req.user?.id);
+    const result = await blogService.getBlogBySlugService(slug , req.user?.id);
 
     console.log("user : ",req.user.id);
 
-    return res.status(200).json({
-        success : true,
-        blog,
-        followState,
-    });
+    return res.status(200).json({ success: true , ...result });
+}
+
+export const recordBlogView = async (req,res) => {
+    await blogService.recordBlogViewService(req.params.id , req.user?.id);
+    res.status(200).json({ success : true });
+}
+
+export const toggleBlogLike = async ( req , res ) => {
+    const result = await blogService.toggleBlogLikeService(req.params.id , req.user.id);
+    res.status(200).json({ success : true , data : result });
+}
+
+export const addComment = async ( req , res ) => {
+    const comment = await blogService.addCommentService(req.params.id , req.user.id , req.body.text);
+    res.status(201).json({ success : true , data : comment });
 }
 
 export const updateBlog = async (req,res)=>{
@@ -63,16 +74,17 @@ export const deleteBlog = async ( req,res )=>{
     res.json("Blog is Deleted : ");
 }
 
-export const commentBlog = async (req,res)=>{
-    commentService.addNewCommentService("123","0606","Helpful")
-    res.json("New Comment Was Added  :");
+
+export const updateComment = async (req,res) => {
+    const comment = await blogService.updateCommentService(req.params.id , req.user.id , req.body.text);
+    res.status(200).json({ success : true , data : comment });
 }
 
-
-export const deleteCommentBlog = async ( req,res )=>{
-    commentService.deleteCommentService("123","0606","0808")
-    res.json("Comment Was Deleted : ");
+export const deleteComment = async (req,res) => {
+    const result = await blogService.deleteCommentService(req.params.id, req.user.id);
+    res.status(200).json({success : true , data : result });
 }
+
 
 export const likeBlog = async ( req,res )=>{
     likeService.addNewLikeService("123","0606")

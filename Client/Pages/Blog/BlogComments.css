@@ -1,0 +1,353 @@
+.blogread-comments {
+  width: 100%;
+  margin-top: 40px;
+}
+
+/* Header */
+
+.blogread-comments-header {
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.blogread-comments-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 22px;
+  /* font-weight: 700; */
+  color: var(--text-color);
+  letter-spacing: -0.3px;
+}
+
+.blogread-comments-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 7px;
+  border-radius: 20px;
+  background: #f1f1f1;
+  color: #555;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* ---------- Three-dot menu ---------- */
+.blogread-comment-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blogread-comment-menu {
+  position: relative;
+}
+
+.blogread-comment-menu-trigger {
+  color: #9a9a9a;
+  padding: 4px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.blogread-comment-menu-trigger:hover {
+  background: #f4f3f0;
+  color: #121212;
+}
+
+.blogread-comment-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 140px;
+  background: var(--dark-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  padding: 4px;
+  z-index: 20;
+}
+
+.blogread-comment-menu-dropdown button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.blogread-comment-menu-dropdown button:hover:not(:disabled) {
+  background-color: var(--accent2);
+  cursor: pointer;
+}
+
+.blogread-comment-menu-dropdown button.is-danger {
+  color: #b3261e;
+}
+
+.blogread-comment-menu-dropdown button.is-danger:hover:not(:disabled) {
+  background: #fbeaea;
+}
+
+/* ---------- Inline edit ---------- */
+.blogread-comment-edit textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+  border-radius: 8px;
+  font-size: 13.5px;
+  font-family: inherit;
+  resize: vertical;
+  outline: none;
+}
+
+.blogread-comment-edit textarea:focus {
+  border-color: var(--muted-text);
+}
+
+.blogread-comment-edit-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+  justify-content: flex-end;
+}
+
+.blogread-comment-edit-actions button {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.blogread-comment-edit-actions .is-cancel {
+  color: #6b6b6b;
+  border: 1px solid #e6e4df;
+}
+
+.blogread-comment-edit-actions .is-save {
+  background: var(--text-primary);
+  color: var(--dark-bg);
+}
+
+.blogread-comment-edit-actions button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.blogread-comment-edited-tag {
+  color: #9a9a9a;
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* Comment List */
+
+.blogread-comment-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Single Comment */
+
+.blogread-comment-item {
+  display: flex;
+  gap: 14px;
+  padding: 20px 0;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.blogread-comment-item:first-child {
+  padding-top: 0;
+}
+
+.blogread-comment-item:last-child {
+  border-bottom: none;
+}
+
+/* Avatar */
+
+.blogread-comment-avatar {
+  width: 36px;
+  height: 36px;
+  flex: 0 0 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: #f1f1f1;
+  border: 1px solid #e6e6e6;
+}
+
+/* Content */
+
+.blogread-comment-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.blogread-comment-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.blogread-comment-author {
+  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.blogread-comment-author .blogread-comment-authorTag{
+  margin-left: 5px;
+  font-weight: 400;
+  background-color: var(--accent2);
+  color : var(--text-primary) ;
+  font-size: small;
+  padding: 0.2em 0.6em;
+  border-radius: 10px;
+}
+
+/* Comment Text */
+
+.blogread-comment-text {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 15px;
+  line-height: 1.65;
+  word-break: break-word;
+}
+
+/* Empty State */
+
+.blogread-comments-empty {
+  padding: 45px 20px;
+  text-align: center;
+  border: 1px dashed var(--border-color);
+  border-radius: 12px;
+  /* background: var(); */
+  background-color: transparent;
+}
+
+.blogread-comments-empty-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: var(--accent2);
+  font-size: 21px;
+}
+
+.blogread-comments-empty h4 {
+  margin: 0 0 6px;
+  color: var(--text-primary);
+  font-size: 16px;
+  font-weight: 650;
+}
+
+.blogread-comments-empty p {
+  margin: 0;
+  color: var(--text-color);
+  font-size: 14px;
+}
+
+
+/* =========================================
+   Tablet
+========================================= */
+
+@media (max-width: 768px) {
+  .blogread-comments {
+    margin-top: 32px;
+  }
+
+  .blogread-comments-title {
+    font-size: 20px;
+  }
+
+  .blogread-comment-item {
+    gap: 12px;
+    padding: 17px 0;
+  }
+
+  .blogread-comment-avatar {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+  }
+
+  .blogread-comment-author {
+    font-size: 14px;
+  }
+
+  .blogread-comment-text {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+}
+
+
+/* =========================================
+   Mobile
+========================================= */
+
+@media (max-width: 480px) {
+  .blogread-comments {
+    margin-top: 26px;
+  }
+
+  .blogread-comments-header {
+    margin-bottom: 18px;
+    padding-bottom: 13px;
+  }
+
+  .blogread-comments-title {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .blogread-comments-count {
+    min-width: 23px;
+    height: 23px;
+    font-size: 12px;
+  }
+
+  .blogread-comment-item {
+    gap: 10px;
+    padding: 15px 0;
+  }
+
+  .blogread-comment-avatar {
+    width: 38px;
+    height: 38px;
+    flex-basis: 38px;
+  }
+
+  .blogread-comment-author {
+    font-size: 14px;
+  }
+
+  .blogread-comment-text {
+    font-size: 13.5px;
+    line-height: 1.55;
+  }
+
+  .blogread-comments-empty {
+    padding: 35px 15px;
+  }
+}
+

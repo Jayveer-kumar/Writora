@@ -1,5 +1,6 @@
 import Blog from "../models/blogModel.js";
 import User from "../models/userSchema.js";
+import Comment from "../models/commentModel.js";
 import { generateUniqueSlug } from "../utils/generateSlug.js";
 import { validateContentImages , extractFirstImageUrl } from "../utils/validateContent.js";
 import { generateExcerpt , countWords } from "../utils/extractExcerpt.js";
@@ -89,6 +90,7 @@ export const getBlogBySlugService = async (slug , currentUserId)=>{
     }
 
     let followState = { isFollowing : false , notifyByEmail : false };
+    let isLiked = false;
 
     // Only run the query if the user is Logged-in otherwise this request is for guest
     if(currentUserId) {
@@ -103,9 +105,13 @@ export const getBlogBySlugService = async (slug , currentUserId)=>{
                 notifyByEmail: currentUser.following[0].notifyByEmail,
             };
         }
+
+        isLiked = blog.likes.some((id) => id.toString() === currentUserId);
     }
 
-    return {blog , followState};
+    const comments = await getCommentsByBlogService(blog._id);
+
+    return {blog , followState , isLiked , likeCount : blog.likes.length , comments,};
 }
 
 
@@ -127,13 +133,121 @@ export const deleteBlogService = async (blogId, authorId) => {
 };
 
 
-export const getAllBlogService = async ()=>{
+export const getAllBlogService = async ( { page = 1 , limit = 10 } = {} )=>{
     try {
         console.log("Fetching All Blogs: ");
-        const blogs  = await Blog.find().populate("authorId", "name avatar pronouns");;
+        const blogs  = await Blog.find().populate("authorId", "name avatar pronouns").sort({ publishedAt: -1 }).skip((page - 1) * limit).limit(limit);
         return blogs;
     } catch (err) {
         console.error("Error Fetching Blogs...",err);
         throw err;
     }
+}
+
+export const recordBlogViewService = async (blogId , userId) => {
+    if(!userId) return;
+
+    const blog = await Blog.findById(blogId).select("viewedBy");
+
+    if(!blog) return;
+
+    const alreadyViewed  = blog.viewedBy.some((id) => id.toString() === userId);
+    if(alreadyViewed) return ; // user already viwed this blog , don't increase views
+
+    await Blog.findByIdAndUpdate(blogId, {
+        $inc : { views: 1},
+        $addToSet : { viewedBy: userId },
+    })
+};
+
+export const toggleBlogLikeService = async (blogId , userId) => {
+    const blog  = await Blog.findById(blogId).select("likes");
+    if(!blog) {
+        const err = new Error("Blog not found.");
+        err.statusCode = 404;
+        throw err;
+    }
+
+    const alreadyLiked = blog.likes.some((id) => id.toString() === userId);
+
+    const updated = await Blog.findByIdAndUpdate(blogId , 
+        alreadyLiked
+        ? { $pull : { likes: userId }} 
+        : { $addToSet : { likes : userId }},
+        { new : true }
+    ).select("likes");
+
+    return {
+        isLiked : !alreadyLiked,
+        likeCount : updated.likes.length,
+    };
+}
+
+export const addCommentService = async (blogId , userId, text) =>{
+    if(!text?.trim()) {
+        const err = new Error("Comment text is required.");
+        err.statusCode = 400;
+        throw err;
+    }
+
+    const comment = await Comment.create( {
+        blogId,
+        authorId : userId,
+        text : text.trim(),
+    });
+
+    await Blog.findByIdAndUpdate(blogId, { $inc: { commentCount: 1 } });
+
+    return comment.populate("authorId", "name avatar");
+}
+
+export const getCommentsByBlogService = async (blogId) => {
+    return Comment.find({blogId}).populate("authorId","name avatar").sort({ createdAt: -1 });
+}
+
+
+export const updateCommentService = async (commentId , userId , text) => {
+    if(!text?.trim()) {
+        const err = new Error("Comment text is required.");
+        err.statusCode = 400;
+        throw err;
+    }
+
+    const comment = await Comment.findById(commentId);
+    if(!comment) {
+        const err = new Error("Comment not found.");
+        err.statusCode = 404;
+        throw err;
+    }
+
+    if(comment.authorId.toString() !== userId) {
+        const err = new Error("You can only edit your own comment.");
+        err.statusCode = 403;
+        throw err;
+    }
+
+    comment.text = text.trim();
+    comment.edited = true;
+    await comment.save();
+
+    return comment.populate("authorId","name avatar");
+}
+
+export const deleteCommentService = async(commentId , userId) => {
+    const comment = await Comment.findById(commentId);
+    if(!comment){
+        const err = new Error("Comment not found.");
+        err.statusCode = 404;
+        throw err;
+    }
+
+    if(comment.authorId.toString() !== userId) {
+        const err = new Error("You can only delete your own comment.");
+        err.statusCode = 403;
+        throw err;
+    }
+
+    await comment.deleteOne();
+    await Blog.findByIdAndUpdate(comment.blogId , { $inc : { commentCount : -1 }});
+    return { commentId };
 }

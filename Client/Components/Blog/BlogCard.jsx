@@ -42,9 +42,9 @@ function BlogCard({ blog }) {
         </div>
 
         <div className="blogcard-meta">
-          <span><EyeIcon /> {blog.views} 300 </span>
-          <span><CommentIcon /> {blog.commentsCount} 30 </span>
-          <span><HeartIcon /> {blog.likesCount} 100 </span>
+          <span><EyeIcon /> {blog.views}  </span>
+          <span><CommentIcon /> {blog.commentCount}  </span>
+          <span><HeartIcon /> {blog.likes.length}  </span>
           <span className="blogcard-date">{date}</span>
         </div>
       </div>

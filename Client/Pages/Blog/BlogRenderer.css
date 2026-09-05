@@ -7,12 +7,12 @@
    ========================================================== */
 
 .blog-rendered-content {
-  --text-color: #1f2328;
-  --muted-color: #57606a;
+  --text-color: var(--text-color);
+  --muted-color: var(--muted-color);
   --link-color: #2563eb;
-  --border-color: #e5e7eb;
+  --border-color: var(--border-color);
   --code-bg: #f6f8fa;
-  --quote-bg: #f9fafb;
+  --quote-bg: #cddeef;
 
   color: var(--text-color);
   font-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
@@ -153,7 +153,8 @@
   background: var(--quote-bg);
   border-left: 4px solid var(--link-color);
   border-radius: 4px;
-  color: var(--muted-color);
+  /* color: var(--text-color); */
+  color : #0b0b0b;
   font-style: italic;
 }
 

@@ -72,6 +72,19 @@ const blogSchema = new mongoose.Schema(
         trim: true,
       },
     ],
+    views: {
+      type: Number,
+      default: 0,
+    },
+    viewedBy: [
+      // which logged-in has seen it [to prevent duplication]
+      { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    ],
+    likes: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
     publishedAt: {
       type: Date,
       default: null,

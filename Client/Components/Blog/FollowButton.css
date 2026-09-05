@@ -22,8 +22,8 @@
 }
 
 .followbtn-follow {
-  background: #121212;
-  color: #ffffff;
+  background: var(--text-primary);
+  color: var(--bg-color);
 }
 
 .followbtn-follow:hover:not(:disabled) {
@@ -31,13 +31,13 @@
 }
 
 .followbtn-following {
-  background: transparent;
-  color: #121212;
+  background: var(--text-primary);
+  color: var(--bg-color);
   border-color: #d8d6d1;
 }
 
 .followbtn-following:hover:not(:disabled) {
-  background: #f4f3f0;
+  opacity: 0.8;
 }
 
 .followbtn-chevron {
@@ -54,12 +54,13 @@
   top: calc(100% + 8px);
   right: 0;
   min-width: 210px;
-  background: #ffffff;
-  border: 1px solid #e6e4df;
+  background: var(--bg-color);
+  border: 1px solid var(--border-color);
   border-radius: 10px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   padding: 6px;
   z-index: 50;
+  box-shadow:  var(--card-shadow);
   animation: followbtn-pop 0.12s ease-out;
 }
 
@@ -82,14 +83,15 @@
   padding: 9px 10px;
   border-radius: 6px;
   font-size: 13.5px;
-  color: #121212;
+  color: var(--text-color);
   background: transparent;
   text-align: left;
   cursor: pointer;
 }
 
 .followbtn-dropdown-item:hover:not(:disabled) {
-  background: #f4f3f0;
+  /* background: #f4f3f0; */
+  opacity: 0.8;
 }
 
 .followbtn-dropdown-item span {

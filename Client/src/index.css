@@ -28,6 +28,7 @@
   --dark-bg:#eef2f7;
   --bg-card : #f5f9fb;
   --text-color: #0f172a;
+  --text-primary : #0b0b0b;
   --accent : #c8f04b;
   --accent2 : #7a7a82; 
   --surface: #e1e7ea;
@@ -37,6 +38,9 @@
   --hover-color: #8a8a8a;
   --green-primary: #10b981;
   --green-hover: #059669; 
+  --skeleton-base: #ececea;
+  --skeleton-highlight: #f7f7f5;
+  --skeleton-shadow: rgba(0, 0, 0, 0.04);
   --green-glow: rgba(16, 185, 129, 0.2);
   --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
   --custom-shadow: rgba(136, 165, 191, 0.4) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
@@ -47,6 +51,7 @@
   --dark-bg:#030303;
   --bg-card : #15151599;
   --text-color: #fafafa;
+  --text-primary : #eee;
   --accent : #c8f04b;
   --accent2 : #7a7a82;
   --surface: #1f1f20;
@@ -56,9 +61,17 @@
   --hover-color: #d2d2d2;
   --green-primary: #34d399;     
   --green-hover: #10b981; 
+  /* --quote-bg : #a5a2a2; */
+   --skeleton-base: #1c1c1e;
+  --skeleton-highlight: #2c2c30;
+  --skeleton-shadow: rgba(0, 0, 0, 0.35);
   --green-glow: rgba(52, 211, 153, 0.15);
   --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   --custom-shadow: rgba(118, 118, 118, 0.348) 6px 2px 16px 0px, rgba(255, 255, 255, 0.178) -6px -2px 16px 0px;
+}
+
+.main-layout-box{
+  background-color: var(--dark-bg) !important;
 }
 
 

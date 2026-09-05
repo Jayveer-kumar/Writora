@@ -12,10 +12,14 @@ router.get("/:slug",protectRoute , asyncWrap(blogController.getBlogBySlug)); // 
 router.put("/:blogId", protectRoute , asyncWrap(blogController.updateBlog)); // Update Blog
 router.delete("/:blogId", protectRoute , asyncWrap(blogController.deleteBlog)); // Delete Blog
 
-// Comments Operation
+// View Count Route
+router.post("/:id/view" , protectRoute , asyncWrap(blogController.recordBlogView));
 
-router.post("/:blogId/comments",blogController.commentBlog); // Add Comment
-router.delete("/:blogId/comments/:commentId",blogController.deleteCommentBlog); // Delete Comment
+// like Comments Operation
+router.post("/:id/like" , protectRoute , asyncWrap(blogController.toggleBlogLike))
+router.post("/:id/comments",protectRoute , asyncWrap(blogController.addComment)); // Add Comment
+router.patch("/:id/comments/:id" , protectRoute , asyncWrap(blogController.updateComment));
+router.delete("/:id/comments/:id", protectRoute , asyncWrap(blogController.deleteComment));
 
 
 // Like Operation
