@@ -18,7 +18,7 @@ function BlogCard({ blog }) {
   const date = new Date(blog.publishedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })
 
   return (
-    <Link to={`/blog/${blog.slug}`} className="blogcard">
+    <Link to={`/blog/${blog.slug}`} className="blogcard ">
       <div className="blogcard-media">
         <img src={blog.coverImage} alt={blog.title} />
         <img
@@ -37,7 +37,6 @@ function BlogCard({ blog }) {
             {blog.category} 
           </span>
           <h3 className="blogcard-title">{blog.title}</h3>
-          {/* <p className="blogcard-desc">{blog.description} Hello </p> */}
           <p className="blogcard-desc">{blog.excerpt} </p>
         </div>
 

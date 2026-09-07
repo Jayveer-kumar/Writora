@@ -1,0 +1,332 @@
+.Stories {
+  background-color: var(--bg-card);
+  max-width: 60em;
+  margin: auto;
+  padding: 1em 1.5em;
+  min-height: 60vh;
+}
+
+.stry-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8em 0.2em;
+  flex-wrap: wrap;
+  gap: 0.6em;
+}
+
+.stry-head h2 {
+  font-size: 3em;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.stry-import-btn {
+  padding: 0.5em 1.3em;
+  border-radius: 2em;
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  font-size: 0.95em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stry-import-btn:hover {
+  background-color: var(--surface);
+}
+
+.stry-tabs {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  padding: 0.8em 0.2em;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  list-style: none;
+}
+
+.stry-tab {
+  color: var(--muted-text);
+  cursor: pointer;
+  font-weight: 500;
+  padding-bottom: 0.6em;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.stry-tab:hover {
+  color: var(--text-primary);
+}
+
+.stry-tab-active {
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--text-primary);
+  font-weight: 700;
+}
+
+/* ---------- Table head ---------- */
+
+.stry-content {
+  padding: 1em 0.2em;
+}
+
+.stry-table-head {
+  display: grid;
+  grid-template-columns: 1fr 12em 8em 2.5em;
+  padding: 0.6em 0.4em;
+  color: var(--muted-text);
+  font-size: 0.9em;
+}
+
+/* ---------- Rows ---------- */
+
+.stry-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.stry-row {
+  display: grid;
+  grid-template-columns: 1fr 12em 8em 2.5em;
+  align-items: center;
+  padding: 1em 0.4em;
+  border-bottom: 1px solid var(--surface);
+  position: relative;
+}
+
+.stry-row-main {
+  display: flex;
+  align-items: center;
+  gap: 1em;
+  min-width: 0;
+}
+
+.stry-thumb {
+  width: 4.5em;
+  height: 3.2em;
+  object-fit: cover;
+  border-radius: 0.4em;
+  flex-shrink: 0;
+  background-color: var(--surface);
+}
+
+.stry-thumb-placeholder {
+  background: linear-gradient(
+    135deg,
+    var(--skeleton-base),
+    var(--skeleton-highlight)
+  );
+}
+
+.stry-info {
+  min-width: 0;
+}
+
+.stry-title {
+  color: var(--text-primary);
+  font-size: 1.1em;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stry-meta {
+  color: var(--muted-text);
+  font-size: 0.85em;
+  margin-top: 0.2em;
+}
+
+.stry-col-pub,
+.stry-col-status {
+  color: var(--muted-text);
+  font-size: 0.9em;
+}
+
+.stry-pub-text,
+.stry-status-text {
+  color: var(--text-primary);
+}
+
+/* ---------- Row menu / dropdown ---------- */
+
+.stry-row-menu {
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.stry-menu-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted-text);
+  font-size: 1.2em;
+  cursor: pointer;
+  padding: 0.3em 0.5em;
+  border-radius: 0.4em;
+  transition: background-color 0.2s ease;
+}
+
+.stry-menu-btn:hover {
+  background-color: var(--surface);
+  color: var(--text-primary);
+}
+
+.stry-dropdown {
+  position: absolute;
+  top: 2.2em;
+  right: 0;
+  background-color: var(--bg-color);
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--border-color);
+  border-radius: 0.6em;
+  display: flex;
+  flex-direction: column;
+  min-width: 9em;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.stry-dropdown button {
+  background: transparent;
+  border: none;
+  text-align: left;
+  padding: 0.7em 1em;
+  color: var(--text-primary);
+  font-size: 0.9em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.stry-dropdown button:hover {
+  background-color: var(--surface);
+}
+
+.stry-danger {
+  color: var(--error-color, #dc2626);
+}
+
+/* ---------- States ---------- */
+
+.stry-state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4em 1em;
+  gap: 0.5em;
+}
+
+.stry-state-text {
+  color: var(--text-primary);
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.stry-state-subtext {
+  color: var(--muted-text);
+  font-size: 0.95em;
+}
+
+.stry-error-text {
+  color: var(--error-color, #dc2626);
+}
+
+.stry-empty-icon {
+  font-size: 2.5em;
+  margin-bottom: 0.2em;
+}
+
+.stry-retry-btn {
+  margin-top: 0.5em;
+  padding: 0.5em 1.4em;
+  border-radius: 1.2em;
+  background-color: var(--action);
+  color: #eee;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.stry-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--skeleton-base);
+  border-top: 3px solid var(--green-primary);
+  border-radius: 50%;
+  animation: stry-spin 0.8s linear infinite;
+}
+
+@keyframes stry-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 768px) {
+  .stry-table-head {
+    display: none; /* header row hide on mobile, info self-explanatory hai */
+  }
+
+  .stry-row {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      "main menu"
+      "pub status";
+    row-gap: 0.4em;
+  }
+
+  .stry-row-main {
+    grid-area: main;
+  }
+
+  .stry-row-menu {
+    grid-area: menu;
+  }
+
+  .stry-col-pub {
+    grid-area: pub;
+  }
+
+  .stry-col-status {
+    grid-area: status;
+    text-align: right;
+  }
+
+  .stry-thumb {
+    width: 3.5em;
+    height: 2.6em;
+  }
+
+  .stry-title {
+    font-size: 1em;
+  }
+}
+
+@media (max-width: 480px) {
+  .Stories {
+    padding: 1em 1em;
+  }
+
+  .stry-head h2 {
+    font-size: 2em;
+  }
+
+  .stry-import-btn {
+    font-size: 0.85em;
+    padding: 0.4em 1em;
+  }
+
+  .stry-tabs {
+    gap: 1em;
+  }
+
+  .stry-tab {
+    font-size: 0.9em;
+  }
+}

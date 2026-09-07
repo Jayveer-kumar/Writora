@@ -1,0 +1,170 @@
+.stats-page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.stats-title {
+  font-family: "Fraunces", serif;
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text-color, #121212);
+  margin-bottom: 24px;
+}
+
+/* ---------- Tabs ---------- */
+.stats-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 1px solid var(--border-color, #e6e4df);
+  margin-bottom: 32px;
+}
+
+.stats-tabs button {
+  padding: 10px 2px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted-text, #6b6b6b);
+  border-bottom: 2px solid transparent;
+}
+
+.stats-tabs button.is-active {
+  color: var(--text-color, #121212);
+  border-bottom-color: var(--text-color, #121212);
+}
+
+/* ---------- Monthly header ---------- */
+.stats-monthly-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.stats-monthly-title {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text-color, #121212);
+}
+
+.stats-monthly-range {
+  font-size: 13px;
+  color: var(--muted-text, #9a9a9a);
+}
+
+.stats-month-picker {
+  position: relative;
+}
+
+.stats-month-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border: 1px solid var(--border-color, #e6e4df);
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--text-color, #121212);
+}
+
+.stats-month-btn:hover {
+  background: var(--surface);
+}
+
+.stats-month-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 170px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color, #e6e4df);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  padding: 6px;
+  z-index: 20;
+}
+
+.stats-month-dropdown button {
+  width: 100%;
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text-color, #121212);
+}
+
+.stats-month-dropdown button:hover {
+  background: var(--surface);
+}
+
+/* ---------- Summary cards ---------- */
+.stats-loading {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--muted-text, #9a9a9a);
+}
+
+.stats-summary-row {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.stats-card-value {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-family: "Fraunces", serif;
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text-color, #121212);
+}
+
+.stats-card-arrow {
+  color: #16a34a;
+}
+
+.stats-card-label {
+  font-size: 13.5px;
+  color: var(--muted-text, #6b6b6b);
+  margin-top: 4px;
+}
+
+/* ---------- Chart ---------- */
+.stats-chart-wrapper {
+  width: 100%;
+}
+
+.stats-chart-svg {
+  width: 100%;
+  height: 220px;
+  display: block;
+}
+
+.stats-chart-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--muted-text, #9a9a9a);
+  margin-top: 6px;
+}
+
+/* ---------- Audience placeholder ---------- */
+.stats-audience-placeholder {
+  padding: 60px 0;
+  text-align: center;
+  color: var(--muted-text, #9a9a9a);
+  font-size: 14px;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 640px) {
+  .stats-summary-row {
+    gap: 24px;
+  }
+  .stats-card-value {
+    font-size: 26px;
+  }
+}

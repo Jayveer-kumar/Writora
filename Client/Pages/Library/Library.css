@@ -1,0 +1,154 @@
+.Library {
+  background-color: var(--bg-card);
+  max-width: 45em;
+  margin: auto;
+  padding: 1em 1.5em;
+  min-height: 60vh;
+}
+
+.lib-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.8em 0.2em;
+}
+
+.lib-head h2 {
+  font-size: 3em;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.lib-head button {
+  padding: 0.4em 1.2em;
+  border-radius: 1.2em;
+  background-color: var(--action);
+  color: #eee;
+  font-size: 1em;
+  cursor: pointer;
+  border: none;
+}
+
+.lib-head-switch-btns {
+  display: flex;
+  align-items: center;
+  gap: 1.5em;
+  padding: 0.8em 0.2em;
+  border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+}
+
+.lib-head-switch-btn {
+  list-style: none;
+  color: var(--muted-text);
+  cursor: pointer;
+  font-weight: 500;
+  padding-bottom: 0.6em;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.lib-head-switch-btn:hover {
+  color: var(--text-primary);
+}
+
+.lib-tab-active {
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--text-primary);
+  font-weight: 700;
+}
+
+/* ---------- Content / States ---------- */
+
+.lib-content {
+  padding: 1.5em 0.2em;
+}
+
+.lib-state-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 4em 1em;
+  gap: 0.5em;
+}
+
+.lib-state-text {
+  color: var(--text-primary);
+  font-size: 1.1em;
+  font-weight: 600;
+}
+
+.lib-state-subtext {
+  color: var(--muted-text);
+  font-size: 0.95em;
+}
+
+.lib-error-text {
+  color: var(--error-color);
+}
+
+.lib-empty-icon {
+  font-size: 2.5em;
+  margin-bottom: 0.2em;
+}
+
+.lib-retry-btn {
+  margin-top: 0.5em;
+  padding: 0.5em 1.4em;
+  border-radius: 1.2em;
+  background-color: var(--action);
+  color: #eee;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95em;
+}
+
+.lib-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--skeleton-base);
+  border-top: 3px solid var(--green-primary);
+  border-radius: 50%;
+  animation: lib-spin 0.8s linear infinite;
+}
+
+@keyframes lib-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 640px) {
+  .Library {
+    padding: 1em 1em;
+  }
+
+  .lib-head h2 {
+    font-size: 2em;
+  }
+
+  .lib-head-switch-btns {
+    gap: 1em;
+  }
+
+  .lib-head-switch-btn {
+    font-size: 0.9em;
+  }
+}
+
+@media (max-width: 400px) {
+  .lib-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6em;
+  }
+
+  .lib-head h2 {
+    font-size: 1.6em;
+  }
+}

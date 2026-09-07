@@ -1,4 +1,5 @@
 import { Link , NavLink } from "react-router-dom";
+import useAuthStore from "../../Store/authStore";
 import {
   User,
   House,
@@ -10,11 +11,12 @@ import {
 import { Sidebar } from "primereact/sidebar";
 
 export default function LeftMobileSidebar({ visible, onClose }) {
+  const currentUser = useAuthStore((state) => state.user);
   const menuItems = [
     { name: "Home", path: "/home", icon: <House size={22} /> },
     { name: "Library", path: "/library", icon: <BookmarkCheck size={22} /> },
     { name: "Your Story", path: "/yourstory", icon: <NotebookText size={22} /> },
-    { name: "Profile", path: "/profile", icon: <User size={22} /> },
+    { name: "Profile", path: `/profile/${currentUser?._id}`, icon: <User size={22} /> },
     { name: "Stats", path: "/stats", icon: <ChartNoAxesColumnDecreasing size={22} /> },
   ];
 

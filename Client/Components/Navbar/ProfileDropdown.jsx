@@ -1,27 +1,12 @@
-
-// import  { forwardRef } from 'react';
-// import { OverlayPanel } from 'primereact/overlaypanel';
-
-// const ProfileDropdown = forwardRef((props,ref)=>{
-//     return (
-//         <div className="card flex justify-content-center">
-//             <OverlayPanel showCloseIcon closeOnEscape ref={ref}>
-//                 <img src={'https://primefaces.org/cdn/primereact/images/product/bamboo-watch.jpg'} alt="Bamboo Watch"></img>
-//             </OverlayPanel>
-//         </div>
-//     );
-// })
-
-// export default ProfileDropdown;
-
-
 import { forwardRef } from 'react';
+import { Link } from 'react-router-dom';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { User, Mail, LogOut, ExternalLink } from 'lucide-react';
 import useAuthStore from "../../Store/authStore"; // Aapka auth store
 
 const ProfileDropdown = forwardRef((props, ref) => {
     const { user, logout } = useAuthStore();
+    const currentUser = useAuthStore((state) => state.user);
 
     return (
       <OverlayPanel
@@ -83,10 +68,12 @@ const ProfileDropdown = forwardRef((props, ref) => {
           <div className="w-full flex flex-col gap-2 border-t border-slate-100 dark:border-slate-800 pt-4">
             {/* Visit Profile Button */}
             <button className="flex items-center justify-between cursor-pointer w-full px-4 py-2.5 text-sm font-medium text-brand-text hover:bg-brand-hover/20  rounded-lg transition-colors group">
+              <Link to={`profile/${currentUser?._id}`} >
               <div className="flex items-center gap-3">
                 <User size={18} className="text-brand-text" />
                 <span>Visit Profile</span>
               </div>
+              </Link>
               <ExternalLink
                 size={14}
                 className="opacity-0 group-hover:opacity-100 transition-opacity"

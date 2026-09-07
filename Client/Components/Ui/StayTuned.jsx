@@ -9,7 +9,7 @@ export default function StayTuned({ value  , onChange , onHandleSubscribe }) {
 
   return (
     <section className="max-w-5xl mx-auto px-4 py-24 border-t border-brand-border mt-10">
-      <div className="bg-brand-hover/40 rounded-[1rem] p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 border border-brand-border shadow-sm">
+      <div className=" rounded-[1rem] p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-12 border border-brand-border shadow-sm">
         
         {/* Left Side: Content */}
         <div className="flex-1 space-y-4 text-center md:text-left">

@@ -19,7 +19,7 @@ export default function About() {
       id : 2,
       name : "Piter Ads",
       position : "Account Manager",
-      img : "https://thepicturesdp.in/wp-content/uploads/2025/08/mysterious-boys-wallpaper.jpg"
+      img : "https://www.csinow.edu/wp-content/uploads/2025/02/computersystemsinstitute-355913-man-laptop-coding-blogbanner-1-1.jpg"
     },
     {
       id : 3,
@@ -94,8 +94,8 @@ export default function About() {
             </ul>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <img src="https://bloggingfornewbloggers.com/wp-content/uploads/2024/09/How-to-Write-Blog-Posts-People-Want-to-Read-1024x576.jpg" className="rounded-2xl border border-brand-border shadow-lg mt-8" alt="Writing" />
-            <img src="https://problogger.com/wp-content/uploads/2009/02/how-to-build-community-blog.png" className="rounded-2xl border border-brand-border shadow-lg" alt="Community" />
+            <img src="https://www.byemilyrae.com/wp-content/uploads/2026/06/Writers-Website-thumb.jpg" className=" rounded-2xl border border-brand-border shadow-lg "  alt="Writing" />
+            <img src="https://www.techtarget.com/rms/onlineimages/what_is_a_blog_used_for-f_mobile.png" className="  rounded-2xl border border-brand-border shadow-lg" alt="Community" />
           </div>
         </div>
       </section>

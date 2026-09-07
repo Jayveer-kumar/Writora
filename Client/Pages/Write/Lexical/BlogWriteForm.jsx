@@ -71,6 +71,7 @@ function countWords(text) {
 export default function BlogWriteForm({
   initialTitle = '',
   initialContent,
+  initialCategory = '',
   onChange,
   onCancel,
   onSaveDraft,
@@ -82,7 +83,7 @@ export default function BlogWriteForm({
   const [title, setTitle] = useState(initialTitle);
   const [content, setContent] = useState(initialContent || null);
   const [wordCount, setWordCount] = useState(0);
-  const [category, setCategory] = useState("");
+  const [category, setCategory] = useState(initialCategory);
   
 
   const initialConfig = {

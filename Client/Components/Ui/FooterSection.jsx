@@ -18,7 +18,7 @@ export default function FooterSection() {
     ];
 
     return (
-        <footer className="bg-brand-bg border-t border-brand-border pt-20 pb-10">
+        <footer className=" w-full max-w-6xl mx-auto py-24  border-brand-border pt-20 pb-10">
             <div className="max-w-5xl mx-auto px-4">
                 
                 {/* Top Section: Logo & Links */}
@@ -35,7 +35,7 @@ export default function FooterSection() {
                         </p>
                         <div className="flex gap-4">
                             {socials.map((social, idx) => (
-                                <a key={idx} href={social.link} className="p-2 bg-brand-hover rounded-full text-brand-muted hover:text-brand-accent transition-all">
+                                <a key={idx} href={social.link} className="p-2  rounded-full text-brand-muted hover:text-brand-accent transition-all">
                                     {social.icon}
                                 </a>
                             ))}

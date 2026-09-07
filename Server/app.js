@@ -12,7 +12,7 @@ import userRouter from "./routes/userRoute.js"
 import blogRouter from "./routes/blogRoute.js";
 import asyncWrap from "./utils/asyncWrap.js";
 import ExpressError from "./utils/expressError.js";
-
+import User from "./models/userSchema.js"
 try {
    
    await connectDB();
@@ -24,6 +24,8 @@ try {
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+
 
 app.use("/api/blogs",blogRouter);
 app.use("/api/user",userRouter);

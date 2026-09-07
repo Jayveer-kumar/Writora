@@ -1,4 +1,5 @@
 import { useEffect, useState , useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './BlogRead.css'
 import { getBlogBySlug , recordBlogView , toggleBlogLike , addComment } from '../../Services/BlogService'
@@ -8,6 +9,9 @@ import { MessageCircle , Heart , Share2 } from "lucide-react"
 import FollowButton from '../../Components/Blog/FollowButton'
 import BlogComments from './BlogComments'
 import  useAuthStore from "../../Store/authStore"
+import ErrorState from '../../Components/Common/ErrorState/ErrorState'
+import BlogOptionsMenu from '../../Components/Blog/BlogOptionMenu'
+import useRequireAuth from '../../Hooks/useRequireAuth'
 
 function BlogRead() {
   const { slug } = useParams()
@@ -21,12 +25,12 @@ function BlogRead() {
   const [ error , setError ] = useState("");
   const [ commentPosting , setCommentPosting ] = useState(false);
   const currentUser = useAuthStore((state) => state.user);
+  const navigate = useNavigate();
+  const requireAuth = useRequireAuth();
 
   const viewRecordedRef = useRef(false); // to prevent from double effect strictMode
 
-
-  useEffect(()=>{
-    const getBlog = async (slug) =>{
+  const getBlog = async (slug) =>{
        try {
         setLoading(true);
         setError("");
@@ -54,6 +58,8 @@ function BlogRead() {
         },2000);
        }
     }
+
+  useEffect(()=>{    
     if(slug) getBlog(slug);
   },[slug]);
 
@@ -61,12 +67,12 @@ function BlogRead() {
     day: 'numeric', month: 'long', year: 'numeric'
   })
 
-  const handleLike = async () => {
+  const handleLike = () => requireAuth( async () => {
     if(!blog?._id) return
     // optimistic update - instant UI update , revert in case of fail
     const prevLiked = liked
     const prevCount = likeCount
-    setLiked(!prevCount);
+    setLiked(!prevLiked);
     setLikeCount((c) => (prevLiked ? c -1 : c + 1 ));
 
     try {
@@ -78,9 +84,9 @@ function BlogRead() {
       setLikeCount(prevCount);
     }
 
-  }
+  } );
 
-  const handlePostComment = async () => {
+  const handlePostComment = () => requireAuth(  async () => {
     if(!comment.trim() || !blog?._id) return;
     setCommentPosting(true);
     try {
@@ -92,7 +98,7 @@ function BlogRead() {
     } finally {
       setCommentPosting(false);
     }
-  }
+  }  );
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -101,6 +107,13 @@ function BlogRead() {
       navigator.clipboard.writeText(window.location.href)
     }
   }
+
+  if(error) {
+    return (
+      <ErrorState message={error} onRetry={()=> getBlog(slug)} showHomeButton={true} />
+    )
+  }
+
 
   return (
     <div>
@@ -116,6 +129,42 @@ function BlogRead() {
             <h1 className="blogread-title">{blog?.title}</h1>
 
             <div className="blogread-meta">
+              <div className="blogread-meta-left">
+                <img
+                  className="blogread-avatar"
+                  src={blog?.authorId.avatar}
+                  alt={blog?.authorId.name}
+                />
+                <div className="blogread-meta-text">
+                  <div className="blogread-author-follow-b">
+                    <span className="blogread-author">
+                      {blog?.authorId.name}
+                    </span>
+                    {currentUser?._id !== blog?.authorId?._id && (
+                      <FollowButton
+                        authorId={blog?.authorId?._id}
+                        authorName={blog?.authorId?.name}
+                        initialIsFollowing={followState?.isFollowing}
+                        initialNotifyByEmail={followState?.notifyByEmail}
+                      />
+                    )}
+                  </div>
+                  <span className="blogread-meta-sub">
+                    {formattedDate} · {blog?.readTime} min read ·{" "}
+                    {blog?.views ?? 0} views
+                  </span>
+                </div>
+              </div>
+
+              {currentUser?._id === blog?.authorId?._id && (
+                <BlogOptionsMenu
+                  blogId={blog?._id}
+                  onDeleted={() => navigate("/home")}
+                />
+              )}
+            </div>
+
+            {/* <div className="blogread-meta">
               <img
                 className="blogread-avatar"
                 src={blog?.authorId.avatar}
@@ -139,7 +188,10 @@ function BlogRead() {
                   {blog?.views ?? 0} views{" "}
                 </span>
               </div>
-            </div>
+              {currentUser?._id === blog?.authorId?._id && (
+                <button className='blogread-blog-edit-btn' >Edit</button>
+              )}
+            </div> */}
 
             <div className="blogread-actionbar">
               <button

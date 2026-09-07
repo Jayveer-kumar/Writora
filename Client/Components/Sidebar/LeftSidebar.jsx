@@ -1,13 +1,14 @@
 import { Link , NavLink } from "react-router-dom";
 import { User, House, BookmarkCheck, NotebookText, ChartNoAxesColumnDecreasing } from "lucide-react";
-
+import useAuthStore from "../../Store/authStore";
 
 export default function LeftSidebar() { 
+  const currentUser = useAuthStore((state) => state.user);
   const menuItems = [
     { name: "Home", path: "/home", icon: <House size={20} /> },
     { name: "Library", path: "/library", icon: <BookmarkCheck size={20} /> },
     { name: "Your Story", path: "/yourstory", icon: <NotebookText size={20} /> },
-    { name: "Profile", path: "/profile", icon: <User size={20} /> },
+    { name: "Profile", path: `/profile/${currentUser?._id}`, icon: <User size={20} /> },
     { name: "Stats", path: "/stats", icon: <ChartNoAxesColumnDecreasing size={20} /> },
   ];
 

@@ -2,15 +2,24 @@ import express from "express";
 const router = express.Router();
 import * as blogController from "../controller/blogController.js"
 import { protectRoute } from "../middleware/authMiddleware.js";
+import { optionalAuth } from "../middleware/optionalAuth.js";
 import asyncWrap from "../utils/asyncWrap.js";
 
-// Blog CRUD Operation
+
 
 router.get("/",asyncWrap(blogController.getAllBlog)); // Get All Blog
+
+router.get("/search/blogs", asyncWrap(blogController.searchBlogs));
+router.get("/trending" , asyncWrap(blogController.getTrendingBlogs));
+
+// Blog CRUD Operation
 router.post("/publish", protectRoute , asyncWrap(blogController.createBlog)); // Create Blog
-router.get("/:slug",protectRoute , asyncWrap(blogController.getBlogBySlug)); // Get Single Blog
-router.put("/:blogId", protectRoute , asyncWrap(blogController.updateBlog)); // Update Blog
-router.delete("/:blogId", protectRoute , asyncWrap(blogController.deleteBlog)); // Delete Blog
+router.get("/:slug", optionalAuth , asyncWrap(blogController.getBlogBySlug)); // Get Single Blog
+router.get("/:id/edit", protectRoute , asyncWrap(blogController.getBlogForEdit)); // Update Blog
+router.put("/:id", protectRoute , asyncWrap(blogController.updateBlog));
+router.delete("/:id", protectRoute , asyncWrap(blogController.deleteBlog)); // Delete Blog
+
+
 
 // View Count Route
 router.post("/:id/view" , protectRoute , asyncWrap(blogController.recordBlogView));
@@ -22,9 +31,5 @@ router.patch("/:id/comments/:id" , protectRoute , asyncWrap(blogController.updat
 router.delete("/:id/comments/:id", protectRoute , asyncWrap(blogController.deleteComment));
 
 
-// Like Operation
-
-router.post("/:blogId/like",blogController.likeBlog); // Like Blog
-router.delete("/:blogId/like",blogController.dislikeBlog); // Dislike Blog
 
 export default router;

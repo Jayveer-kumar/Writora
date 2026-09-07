@@ -36,3 +36,11 @@ export const saveDraftBlog = async (title, content) => {
     const response = await api.post("/blogs/publish", { title, content, status: "draft" });
     return response.data;
 };
+
+export const getTrendingBlogs = async() => {
+    return api.get("/blogs/trending");
+}
+
+export const deleteBlog = (blogId) => api.delete(`/blogs/${blogId}`);
+export const getBlogForEdit = (blogId) => api.get(`/blogs/${blogId}/edit`);
+export const updateBlog = (blogId, data) => api.put(`/blogs/${blogId}`, data);

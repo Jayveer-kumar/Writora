@@ -3,6 +3,8 @@ import { MoreHorizontal, Pencil, Trash2, X, Check } from "lucide-react";
 import "./BlogComments.css";
 import { updateComment, deleteComment } from "../../Services/BlogService";
 import { useToast } from "../../Components/Ui/AlertToast";
+// import useRequireAuth from '../../Hooks/useRequireAuth'
+
 
 /**
  * BlogComments
@@ -16,6 +18,7 @@ import { useToast } from "../../Components/Ui/AlertToast";
  *   <BlogComments comments={comments} setComments={setComments} currentUserId={currentUser?._id} />
  */
 const BlogComments = ({ comments = [], setComments, currentUserId }) => {
+  // const requireAuth = useRequireAuth();
   return (
     <section className="blogread-comments">
       <div className="blogread-comments-header">
@@ -81,7 +84,7 @@ function CommentItem({ comment, isOwner, onUpdated, onDeleted }) {
     setEditText(comment.text);
   };
 
-  const saveEdit = async () => {
+  const saveEdit =   async () => {
     if (!editText.trim() || busy) return;
     setBusy(true);
     try {
@@ -93,9 +96,9 @@ function CommentItem({ comment, isOwner, onUpdated, onDeleted }) {
     } finally {
       setBusy(false);
     }
-  };
+  } ;
 
-  const handleDelete = async () => {
+  const handleDelete =  async () => {
     if (busy) return;
     setBusy(true);
     try {
@@ -106,7 +109,7 @@ function CommentItem({ comment, isOwner, onUpdated, onDeleted }) {
       toast.error(err?.response?.data?.message || "Couldn't delete comment.");
       setBusy(false);
     }
-  };
+  } ;
 
   return (
     <div className="blogread-comment-item">

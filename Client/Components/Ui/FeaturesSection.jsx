@@ -33,8 +33,8 @@ export default function FeaturesSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {features.map((f, i) => (
-            <div key={i} className="p-8 bg-brand-bg rounded-3xl border border-brand-border hover:shadow-lg transition-all group">
-              <div className="mb-4 p-3 bg-brand-hover w-fit rounded-2xl group-hover:scale-110 transition-transform">
+            <div key={i} className="p-8 bg-surface rounded-3xl border border-brand-border hover:shadow-lg transition-all group">
+              <div className="mb-4 p-3  w-fit rounded-2xl group-hover:scale-110 transition-transform">
                 {f.icon}
               </div>
               <h3 className="text-xl font-bold text-brand-text mb-2">{f.title}</h3>

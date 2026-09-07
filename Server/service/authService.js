@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken"
 import User from "../models/userSchema.js"
 import bcrypt from "bcrypt"
 import ExpressError from "../utils/expressError.js"
+import Blog from "../models/blogModel.js"
 
 export const signupUserService = async(data)=>{
    console.log(` Signup Recieved Data : ${data}`);
@@ -60,15 +61,54 @@ export const loginUserService = async(data)=>{
    return { success : true , user , token , message : "Login Successfully"};
 }
 
-export const getUserService = async(userId)=>{
-   console.log(` Getuser Recieved Data : ${userId}`);
 
-   const user = await User.findById(userId).select("-password");
-   if(!user){
-      throw new Error("User Not Found.")
-   }
-   return user; 
-}
+export const getUserProfileService = async (profileUserId, currentUserId) => {
+  const user = await User.findById(profileUserId).select(
+    "-password -resetPasswordToken -resetPasswordExpire -googleId"
+  );
+
+  if (!user) {
+    const err = new Error("User not found.");
+    err.statusCode = 404;
+    throw err;
+  }
+
+  const isOwnProfile = currentUserId === profileUserId;
+
+  let followState = { isFollowing: false, notifyByEmail: false };
+  if (currentUserId && !isOwnProfile) {
+    const currentUser = await User.findOne(
+      { _id: currentUserId, "following.user": profileUserId },
+      { "following.$": 1 }
+    );
+    if (currentUser?.following?.length) {
+      followState = {
+        isFollowing: true,
+        notifyByEmail: currentUser.following[0].notifyByEmail,
+      };
+    }
+  }
+
+  const blogs = await Blog.find({ authorId: profileUserId, status: "published" })
+    .select("-content")
+    .sort({ publishedAt: -1 });
+
+  return {
+    user: {
+      _id: user._id,
+      name: user.name,
+      avatar: user.avatar,
+      bio: user.bio,
+      pronouns: user.pronouns,
+      followersCount: user.followers.length,
+      followingCount: user.following.length,
+      createdAt: user.createdAt,
+    },
+    isOwnProfile,
+    followState,
+    blogs,
+  };
+};
 
 export const updateProfileService = async(userId,data)=>{
    console.log(` update user Profiel Recieved Data : ${userId} ${data} `);
@@ -117,7 +157,7 @@ export const followUserService = async (currentUserId , targetUserId) => {
    });
 
    await User.findByIdAndUpdate(targetUserId , {
-      $addToSet : { followers : currentUserId },
+      $addToSet : { followers: { user: currentUserId, followedAt: new Date() } },
    });
 
    return { isFollowing : true , notifyByEmail : true };
@@ -157,3 +197,33 @@ export const toggleFollowNotificationService = async(currentUserId , targetUserI
 
    return { notifyByEmail : newValue };
 }
+
+
+export const getSuggestedAuthorsService = async (currentUserId, limit = 3) => {
+  const currentUser = currentUserId
+    ? await User.findById(currentUserId).select("following")
+    : null;
+
+  const excludeIds = [
+    ...(currentUser?.following.map((f) => f.user) || []),
+    ...(currentUserId ? [currentUserId] : []),
+  ];
+
+  return User.aggregate([
+    { $match: { _id: { $nin: excludeIds } } },
+    { $addFields: { followerCount: { $size: "$followers" } } },
+    { $sort: { followerCount: -1 } },
+    { $limit: limit },
+    { $project: { name: 1, avatar: 1, followerCount: 1 } },
+  ]);
+};
+
+
+export const searchUsersService = async (query, limit = 10) => {
+  if (!query?.trim()) return [];
+  const regex = new RegExp(query.trim(), "i");
+
+  return User.find({ $or: [{ name: regex }, { bio: regex }] })
+    .select("name avatar bio followers")
+    .limit(limit);
+};

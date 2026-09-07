@@ -93,13 +93,13 @@ export default function WhyChooseWritora() {
       <div className="absolute bottom-4 right-4 flex  gap-2">
         <button
           onClick={prev}
-          className="h-12 w-12 bg-brand-muted text-gray-800 flex items-center justify-center rounded-full cursor-pointer"
+          className="h-12 w-12 bg-brand-surface text-brand-text hover:opacity-80 flex items-center justify-center rounded-full cursor-pointer"
         >
           <ArrowLeft size={20} />
         </button>
         <button
           onClick={next}
-          className="h-12 w-12 bg-brand-muted text-gray-800 flex items-center justify-center rounded-full cursor-pointer"
+          className="h-12 w-12 bg-brand-surface text-brand-text hover:opacity-80 flex items-center justify-center rounded-full cursor-pointer"
         >
           <ArrowRight size={20} />
         </button>

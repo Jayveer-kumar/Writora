@@ -7,7 +7,7 @@ export default function MobileSidebar({ visible, onHide }) {
         { id: 1, name: "Our Story", link: "/about" },
         { id: 2, name: "Membership", link: "/membership" },
         { id: 3, name: "Write", link: "/write" },
-        { id: 4, name: "Signin", link: "/signin" }
+        { id: 4, name: "Signin", link: "/auth?currentAction=login" }
     ];
 
     return (
@@ -60,9 +60,11 @@ export default function MobileSidebar({ visible, onHide }) {
 
           {/* Bottom Section / CTA */}
           <div className="mt-auto p-6 border-t border-brand-border mb-4">
+            <Link to="/auth?currentAction=signup">
             <button className="w-full cursor-pointer bg-brand-text text-brand-bg py-4 rounded-2xl font-semibold shadow-lg hover:opacity-90 transition-transform active:scale-95">
               Get Started
             </button>
+            </Link>
             <div className=" flex items-center gap-3 justify-center text-center text-xs text-brand-muted mt-4">
               <Copyright className="h-3 w-3" />{" "}
               <span> {new Date().getFullYear()} Writora Inc.</span>

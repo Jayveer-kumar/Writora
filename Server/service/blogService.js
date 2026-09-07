@@ -1,10 +1,12 @@
 import Blog from "../models/blogModel.js";
 import User from "../models/userSchema.js";
+import BlogView from "../models/blogViewModel.js";
 import Comment from "../models/commentModel.js";
 import { generateUniqueSlug } from "../utils/generateSlug.js";
 import { validateContentImages , extractFirstImageUrl } from "../utils/validateContent.js";
 import { generateExcerpt , countWords } from "../utils/extractExcerpt.js";
 import { calculateReadTime } from "../utils/readTime.js";
+// import BlogView from "../models/blogViewModel.js";
 
 // Shared validation + field prep , used by both create and update
 async function prepareBlogFields({title , content , excludeId = null  }) {
@@ -57,29 +59,38 @@ export const createBlogService = async ({ title , content , status , authorId , 
 }
 
 
+export const updateBlogService = async (blogId, userId, { title, content, status, category }) => {
+  const blog = await Blog.findById(blogId);
+  if (!blog) {
+    const err = new Error("Blog not found.");
+    err.statusCode = 404;
+    throw err;
+  }
+  if (blog.authorId.toString() !== userId) {
+    const err = new Error("You can only edit your own blog.");
+    err.statusCode = 403;
+    throw err;
+  }
 
-export const updateBlogService = async ( blogId , {title , content , status } , authorId ) =>{
-    const existing = await Blog.findOne({_id : blogId , authorId });
-    if(!existing) {
-        const err = new Error("Blog Not Found");
-        err.statusCode = 404;
-        throw err;
-    }
+  const fields = await prepareBlogFields({ title, content, excludeId: blogId }); // excludeId zaroori hai taaki slug uniqueness check khud se conflict na kare
 
-    const fields = await prepareBlogFields({ title , content , excludeId : blogId });
+  blog.title = fields.title;
+  blog.content = fields.content;
+  blog.slug = fields.slug;
+  blog.excerpt = fields.excerpt;
+  blog.wordCount = fields.wordCount;
+  blog.readTime = calculateReadTime(fields.wordCount);
+  blog.coverImage = fields.coverImage;
+  if (category) blog.category = category;
 
-    const wasPublished = existing.status === "published";
-    const willBePublished = status === "published";
+  if (status && status !== blog.status) {
+    blog.status = status;
+    if (status === "published" && !blog.publishedAt) blog.publishedAt = new Date();
+  }
 
-    existing.set({
-        ...fields,
-        status : willBePublished ? "published" : "draft",
-        publishedAt : !wasPublished && willBePublished ? new Date() : existing.publishedAt,
-    });
-
-    await existing.save();
-    return existing;
-}
+  await blog.save();
+  return blog;
+};
 
 export const getBlogBySlugService = async (slug , currentUserId)=>{
     const blog = await Blog.findOne({ slug , status : "published" }).populate("authorId","name avatar pronouns")
@@ -121,17 +132,43 @@ export const getBlogsByAuthorService = async (authorId, status) => {
   if (status) query.status = status;
   return Blog.find(query).sort({ updatedAt: -1 });
 };
- 
-export const deleteBlogService = async (blogId, authorId) => {
-  const deleted = await Blog.findOneAndDelete({ _id: blogId, authorId });
-  if (!deleted) {
-    const err = new Error("Blog not found");
+
+export const getBlogForEditService = async (blogId, userId) => {
+  const blog = await Blog.findById(blogId);
+  if (!blog) {
+    const err = new Error("Blog not found.");
     err.statusCode = 404;
     throw err;
   }
-  return deleted;
+  if (blog.authorId.toString() !== userId) {
+    const err = new Error("You can only edit your own blog.");
+    err.statusCode = 403;
+    throw err;
+  }
+  return blog; // raw content JSON, editor isko load karega
 };
 
+export const deleteBlogService = async (blogId, userId) => {
+  const blog = await Blog.findById(blogId);
+  if (!blog) {
+    const err = new Error("Blog not found.");
+    err.statusCode = 404;
+    throw err;
+  }
+
+  if (blog.authorId.toString() !== userId) {
+    const err = new Error("You can only delete your own blog.");
+    err.statusCode = 403;
+    throw err;
+  }
+
+  await blog.deleteOne();
+  // cleanup — related data bhi hata do, warna orphan documents reh jayenge
+  await Comment.deleteMany({ blogId });
+  await BlogView.deleteMany({blogId});
+
+  return { blogId };
+};
 
 export const getAllBlogService = async ( { page = 1 , limit = 10 } = {} )=>{
     try {
@@ -158,6 +195,7 @@ export const recordBlogViewService = async (blogId , userId) => {
         $inc : { views: 1},
         $addToSet : { viewedBy: userId },
     })
+    await BlogView.create({ blogId, userId });
 };
 
 export const toggleBlogLikeService = async (blogId , userId) => {
@@ -251,3 +289,52 @@ export const deleteCommentService = async(commentId , userId) => {
     await Blog.findByIdAndUpdate(comment.blogId , { $inc : { commentCount : -1 }});
     return { commentId };
 }
+
+
+
+// NEw 
+export const getTrendingBlogsService = async (limit = 4) => {
+  const blogs = await Blog.aggregate([
+    { $match: { status: "published" } },
+    {
+      $addFields: {
+        engagementScore: {
+          $add: [
+            { $ifNull: ["$views", 0] },
+            { $multiply: [{ $size: { $ifNull: ["$likes", []] } }, 3] },
+            { $multiply: [{ $ifNull: ["$commentCount", 0] }, 5] },
+          ],
+        },
+      },
+    },
+    { $sort: { engagementScore: -1, publishedAt: -1 } },
+    { $limit: limit },
+    { $project: { title: 1, slug: 1, authorId: 1, views: 1, publishedAt: 1 } },
+    {
+      $lookup: {
+        from: "users",
+        localField: "authorId",
+        foreignField: "_id",
+        as: "authorId",
+      },
+    },
+    { $unwind: "$authorId" },
+  ]);
+  return blogs;
+};
+
+
+// blogService.js
+export const searchBlogsService = async (query, limit = 10) => {
+  if (!query?.trim()) return [];
+  const regex = new RegExp(query.trim(), "i"); // case-insensitive partial match
+
+  return Blog.find({
+    status: "published",
+    $or: [{ title: regex }, { excerpt: regex }, { tags: regex }],
+  })
+    .populate("authorId", "name avatar")
+    .select("-content")
+    .sort({ publishedAt: -1 })
+    .limit(limit);
+};

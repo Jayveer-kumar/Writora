@@ -10,12 +10,15 @@
   --color-dark-bg: var(--dark-bg);
   --color-brand-card-bg: var(--bg-card);
   --color-brand-text: var(--text-color);
+  --color-brand-primary: var(--text-primary);
+  --color-brand-surface: var(--surface);
   --color-brand-accent1 : var(--accent);
   --color-brand-accent2 : var(--accent2);
   --color-brand-muted: var(--muted-text); 
   --color-brand-border: var(--border-color);
   --color-brand-accent: var(--accent-color); 
   --color-brand-hover: var(--hover-color);
+  --color-brand-surface : var(--surface);
   --color-brand-green: var(--green-primary);
   --color-brand-green-hover: var(--green-hover);
   --shadow-green-glow: 0 4px 15px var(--green-glow); 
@@ -30,6 +33,7 @@
   --text-color: #0f172a;
   --text-primary : #0b0b0b;
   --accent : #c8f04b;
+  --action : #069806;
   --accent2 : #7a7a82; 
   --surface: #e1e7ea;
   --muted-text: #64748b;
@@ -44,6 +48,8 @@
   --green-glow: rgba(16, 185, 129, 0.2);
   --card-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
   --custom-shadow: rgba(136, 165, 191, 0.4) 6px 2px 16px 0px, rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  --error-color: #dc2626;
+  --nav-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
 }
 
 .dark {
@@ -61,13 +67,22 @@
   --hover-color: #d2d2d2;
   --green-primary: #34d399;     
   --green-hover: #10b981; 
-  /* --quote-bg : #a5a2a2; */
-   --skeleton-base: #1c1c1e;
+  --skeleton-base: #1c1c1e;
   --skeleton-highlight: #2c2c30;
   --skeleton-shadow: rgba(0, 0, 0, 0.35);
   --green-glow: rgba(52, 211, 153, 0.15);
   --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
   --custom-shadow: rgba(118, 118, 118, 0.348) 6px 2px 16px 0px, rgba(255, 255, 255, 0.178) -6px -2px 16px 0px;
+  --error-color: #f87171;
+  --nav-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+*{
+  /* background-color: var(--dark-bg); */
+}
+.PublicNavbar{
+  border-bottom: 1px solid var(--border-color); 
+  box-shadow: var(--nav-shadow);
 }
 
 .main-layout-box{

@@ -10,11 +10,11 @@ export default function MembershipPage() {
   };
 
   return (
-    <div className="bg-brand-bg min-h-screen px-20 transition-colors duration-300 mt-4 ">
+    <div className="bg-brand-bg min-h-screen  transition-colors duration-300 py-6">
 
-      <div className="px-20" >
+      <div className="px-10" >
         {/* Heading */}
-      <h1 className="text-4xl font-bold text-center text-brand-text mb-4">
+      <h1 className="text-4xl font-bold text-center text-brand-text py-6 mb-4">
         Become Member of Writora
       </h1>
 
@@ -28,7 +28,7 @@ export default function MembershipPage() {
           onClick={() => setPlan("monthly")}
           className={`px-6 py-2 rounded-full text-brand-text border transition cursor-pointer ${
             plan === "monthly"
-              ? "bg-[var(--color-brand-accent)] text-white"
+              ? "bg-[var(--color-brand-muted)] text-white"
               : "border-[var(--color-brand-border)]"
           }`}
         >
@@ -38,7 +38,7 @@ export default function MembershipPage() {
           onClick={() => setPlan("yearly")}
           className={`px-6 py-2 rounded-full text-brand-text border transition cursor-pointer ${
             plan === "yearly"
-              ? "bg-[var(--color-brand-accent)] text-white"
+              ? "bg-[var(--color-brand-muted)] text-white"
               : "border-[var(--color-brand-border)]"
           }`}
         >
@@ -47,7 +47,7 @@ export default function MembershipPage() {
       </div>
 
       {/* Cards */}
-      <div className="grid md:grid-cols-2 gap-8">
+      <div className="grid md:grid-cols-2 gap-8 px-20">
         {/* Single User */}
         <div className="relative p-10  rounded-2xl border border-[var(--color-brand-border)] bg-[var(--color-brand-bg)] shadow-[var(--shadow-card)]">
           {/* Badge */}

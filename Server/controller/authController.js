@@ -30,7 +30,8 @@ export const loginUser = async (req,res)=>{
 }
 
 export const getUser = async (req,res)=>{
-    const result  = await authService.getUserService(req.params.id);
+    console.log("Request Recived for user profile :");
+    const result  = await authService.getUserProfileService(req.params.id , req.user?.id);
     res.status(201).json(result); 
 }
 
@@ -57,4 +58,14 @@ export const unfollowUser = async(req,res)=>{
 export const toggleFollowNotification = async(req,res) =>{
     const result = await authService.toggleFollowNotificationService(req.user.id, req.params.id);
     res.status(200).json({ success : true , data : result });
+};
+
+export const getSuggestedAuthors = async (req,res) => {
+    const authors = await authService.getSuggestedAuthorsService(req.user?.id);
+    res.status(200).json({ success : true , data : authors });
+}
+
+export const searchUsers = async (req, res) => {
+  const users = await authService.searchUsersService(req.query.q);
+  res.status(200).json({ success: true, data: users });
 };
