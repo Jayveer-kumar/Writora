@@ -3,7 +3,7 @@ import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import useAuthStore from "../Store/authStore";
 
-import AppLayout from "../Layouts/Applayout/Applayout";
+import AppLayout from "../Layouts/AppLayout/AppLayout";
 import GuestLayout from "../Layouts/GuestLayout/GuestLayout";
 import LandingPage from "../Pages/Landing/LandingPage";
 import Home from "../Pages/Home/Home";
