@@ -25,7 +25,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-
+app.get("/", (req, res) => {
+  res.status(200).json({ success: true, message: "Writora API is running" });
+});
 
 app.use("/api/blogs",blogRouter);
 app.use("/api/user",userRouter);
