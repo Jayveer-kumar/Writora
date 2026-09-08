@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import useAuthStore from "../Store/authStore";
-import AppLayout from "./Applayout/Applayout";
+import AppLayout from "./AppLayout/Applayout";
 import GuestLayout from "./GuestLayout/GuestLayout";
 
 export default function PublicOrAppLayout() {
